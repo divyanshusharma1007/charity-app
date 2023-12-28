@@ -33,9 +33,9 @@ async function main(){
   const addresses=[owner.address,from1.address,from2.address,from3.address];
   consoleBalances(addresses);
   const amout={value:hre.ethers.utils.parseEther("1")}
-  // await contract.connect(from1).donate('rohit',"fruits",amout);
-  // await contract.connect(from1).donate('mohit',"studies",amout);
-  // await contract.connect(from1).donate('aman',"vegitable",amout);
+  await contract.connect(from1).donate('rohit',"fruits",amout);
+  await contract.connect(from1).donate('mohit',"studies",amout);
+  await contract.connect(from1).donate('aman',"vegitable",amout);
 consoleBalances(addresses)
 }
 

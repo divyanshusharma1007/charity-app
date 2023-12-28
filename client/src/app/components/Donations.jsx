@@ -1,110 +1,57 @@
 "use client";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 import { ethers } from "ethers";
+
 const Memos = ({ state }) => {
   const [donations, setDonations] = useState([]);
 
   const { contract } = state;
+
   useEffect(() => {
     (async () => {
       try {
         console.log(state, "here is the state");
-        // const amount = { value: ethers.utils.parseEther("1") };
         const Donations = await contract.getdonation();
-        console.log(Donations,"here is memos");
+        console.log(Donations, "here is memos");
         setDonations(Donations);
       } catch (e) {
-        console.log(e,"error");
+        console.error(e, "error");
       }
     })();
   }, [contract]);
-  console.log(donations,"donations in the value");
-  return (
-  
-    <>
-      <p className="font-bold text-lg">Donations</p>
-      <div className="w-full overflow-auto mx-2">
 
-      {donations.map((data) => {
-        return (
+  console.log(donations, "donations in the value");
+
+  return (
+    <>
+      <p className="font-bold text-lg text-white">Donations</p>
+      <div className="w-full overflow-auto mx-2 rounded-md">
+        {donations.map((data, index) => (
           <div
-            className="container-fluid"
+            className="container-fluid mb-4"
             style={{ width: "100%" }}
-            key={Math.random()}
+            key={`donation_${index}`}
           >
-            <table
-              style={{
-                marginBottom: "10px",
-              }}
-            >
+            <table className="w-full table-fixed">
+              
               <tbody>
-                <tr>
-                  <td
-                    style={{
-                      backgroundColor: "#96D4D4",
-                      border: "1px solid white",
-                      borderCollapse: "collapse",
-                      padding: "7px",
-                      width: "100px",
-                    }}
-                  >
-                    {data.donnor_name}
-                  </td>
-                  <td
-                    style={{
-                      backgroundColor: "#96D4D4",
-                      border: "1px solid white",
-                      borderCollapse: "collapse",
-                      padding: "7px",
-                      width: "800px",
-                    }}
-                  >
+                <tr className="bg-purple-700 text-white">
+                  <td className="border border-white p-2 w-1/6">{data.donnor_name}</td>
+                  <td className="border border-white p-2 w-2/6">
                     {new Date(data.timestamp * 1000).toLocaleString()}
                   </td>
-                  <td
-                    style={{
-                      backgroundColor: "#96D4D4",
-                      border: "1px solid white",
-                      borderCollapse: "collapse",
-                      padding: "7px",
-                      width: "300px",
-                    }}
-                  >
-                    {data.to_use}
-                  </td>
-                  <td
-                    style={{
-                      backgroundColor: "#96D4D4",
-                      border: "1px solid white",
-                      borderCollapse: "collapse",
-                      padding: "7px",
-                      width: "400px",
-                    }}
-                  >
-                    {data.by}
-                  </td>
-                  <td
-                    style={{
-                      backgroundColor: "#96D4D4",
-                      border: "1px solid white",
-                      borderCollapse: "collapse",
-                      padding: "7px",
-                      width: "400px",
-                    }}
-                  >
-                    {memo.amount}
-                  </td>
+                  <td className="border border-white p-2 w-1/6">{data.to_use}</td>
+                  <td className="border border-white p-2 w-1/6 overflow-auto">{data.by}</td>
+                  <td className="border border-white p-2 w-1/6 overflow-auto">{data.amount.toString()}</td>
+
                 </tr>
               </tbody>
             </table>
           </div>
-          
-        );
-      })}
-      
+        ))}
       </div>
     </>
-    
   );
 };
+
 export default Memos;
